@@ -6,7 +6,7 @@ before_script:
   - mkdir ../build
   - cd ../build
 script:
-  - cmake ../TreeMap
+  - cmake ../lab15_treemap
   - make -j
   - ./test/Test_TreeMap
 notifications:

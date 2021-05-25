@@ -37,8 +37,8 @@ public:
   friend class TTreeMap<TK, TV>;
 
   //גûגמה ג פאיכ
-  template<class TK, class TV>
-  friend ofstream& operator<<(ofstream& out, const TNode<TK, TV>& N);
+  template<class TK1, class TV1>
+  friend ofstream& operator<<(ofstream& out, const TNode<TK1, TV1>& N);
 };
 
 template<class TK, class TV>
@@ -105,8 +105,8 @@ TNode<TK, TV>& TNode<TK, TV>::operator =(const TNode<TK, TV>& p)
   return *this;
 }
 
-template<class TK, class TV>
-ofstream& operator<<(ofstream& out, const TNode<TK, TV>& N)
+template<class TK1, class TV1>
+ofstream& operator<<(ofstream& out, const TNode<TK1, TV1>& N)
 {
   out << N.key << ": " << N.val;
   return out;

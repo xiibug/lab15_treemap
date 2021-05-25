@@ -52,8 +52,8 @@ public:
   virtual void Delete(TK k);
   virtual void Add(TK k, TV v);
 
-  template<class TK, class TV>
-  friend ofstream& operator<<(ofstream& out, const TTreeMap<TK, TV>& T);
+  template<class TK1, class TV1>
+  friend ofstream& operator<<(ofstream& out, const TTreeMap<TK1, TV1>& T);
 };
 
 template <class TK, class TV>
@@ -276,12 +276,12 @@ void TTreeMap<TK, TV>::Add(TK k, TV v)
   }
 }
 
-template<class TK, class TV>
-inline ofstream& operator<<(ofstream& out, const TTreeMap<TK, TV>& T)
+template<class TK1, class TV1>
+inline ofstream& operator<<(ofstream& out, const TTreeMap<TK1, TV1>& T)
 {
   struct obhod
   {
-    TTreeNode<TK, TV>* n;
+    TTreeNode<TK1, TV1>* n;
     bool l;
     bool r;
   };

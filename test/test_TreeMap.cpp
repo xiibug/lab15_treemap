@@ -39,7 +39,10 @@ TEST(TTreeMap, can_find_elem)
   v.push_back(e.Find(1));
   v.push_back(e.Find(3));
   v.push_back(e.Find(2));
-  vector<double> expv = { 1,3,2 };
+  vector<double> expv;
+  expv.push_back(1);
+  expv.push_back(3);
+  expv.push_back(2);
   EXPECT_EQ(expv, v);
 }
 
@@ -53,7 +56,10 @@ TEST(TTreeMap, can_index_elem)
   v.push_back(e[1]);
   v.push_back(e[3]);
   v.push_back(e[2]);
-  vector<double> expv = { 1,3,2 };
+  vector<double> expv;
+  expv.push_back(1);
+  expv.push_back(3);
+  expv.push_back(2);
   EXPECT_EQ(expv, v);
 }
 

@@ -38,10 +38,10 @@ template <class TK, class TV>
 class TTreeMap
 {
 protected:
-  TTreeNode<TK, TV>* root;
   int count;
 
 public:
+  TTreeNode<TK, TV>* root;
   TTreeMap();
   TTreeMap(const TTreeMap<TK, TV>& p);
   virtual ~TTreeMap();
@@ -60,14 +60,14 @@ template <class TK, class TV>
 TTreeMap<TK, TV>::TTreeMap()
 {
   count = 0;
-  root = nullptr;
+  root = 0;
 }
 
 template <class TK, class TV>
 TTreeMap<TK, TV>::TTreeMap(const TTreeMap<TK, TV>& p)
 {
   count = p.count;
-  if (p.root != nullptr)
+  if (p.root != 0)
   {
     root = new TTreeNode<TK, TV>(*(p.root));
     queue<TTreeNode<TK, TV>*> q;
@@ -84,7 +84,7 @@ TTreeMap<TK, TV>::TTreeMap(const TTreeMap<TK, TV>& p)
       q.pop();
       q2.pop();
 
-      if (cur1->l != nullptr)
+      if (cur1->l != 0)
       {
         TTreeNode<TK, TV>* t = new TTreeNode<TK, TV>(*(cur1->l));
         cur2->l = t;
@@ -93,7 +93,7 @@ TTreeMap<TK, TV>::TTreeMap(const TTreeMap<TK, TV>& p)
         q2.push(cur2->l);
 
       }
-      if (cur1->r != nullptr)
+      if (cur1->r != 0)
       {
         TTreeNode<TK, TV>* t = new TTreeNode<TK, TV>(*(cur1->r));
         cur2->r = t;
@@ -108,15 +108,15 @@ TTreeMap<TK, TV>::TTreeMap(const TTreeMap<TK, TV>& p)
 template <class TK, class TV>
 TTreeMap<TK, TV>:: ~TTreeMap()
 {
-  if (root != nullptr)
+  if (root != 0)
   {
     queue<TTreeNode<TK, TV>*> q;
     q.push(root);
     while (!q.empty())
     {
-      if (q.front()->l != nullptr)
+      if (q.front()->l != 0)
         q.push(q.front()->l);
-      if (q.front()->r != nullptr)
+      if (q.front()->r != 0)
         q.push(q.front()->r);
       delete q.front();
       q.pop();
@@ -163,7 +163,7 @@ template <class TK, class TV>
 void TTreeMap<TK, TV>::Delete(TK k)
 {
   TTreeNode<TK, TV>* res(root);
-  TTreeNode<TK, TV>* pred = nullptr;
+  TTreeNode<TK, TV>* pred = 0;
   bool isleft = false;
   while (true)
   {
@@ -177,9 +177,9 @@ void TTreeMap<TK, TV>::Delete(TK k)
       if (!res->l && !res->r)
       {
         if (isleft)
-          pred->l = nullptr;
+          pred->l = 0;
         else
-          pred->r = nullptr;
+          pred->r = 0;
         delete res;
         return;
       }
@@ -238,43 +238,44 @@ template <class TK, class TV>
 void TTreeMap<TK, TV>::Add(TK k, TV v)
 {
 
-  if (root == nullptr)
-  {
-    root = new TTreeNode<TK, TV>(k, v);
-    count++;
-    return;
-  }
-
-  TTreeNode<TK, TV>* cur = root;
-
-  while (true)
-  {
-    if (cur->GetKey() == k)
-      return;
-    if (k > cur->GetKey())
+    if (root == 0)
     {
-      if (cur->r == nullptr)
-      {
-        cur->r = new TTreeNode<TK, TV>(k, v);
+        root = new TTreeNode<TK, TV>(k, v);
         count++;
         return;
-      }
-      else
-        cur = cur->r;
     }
-    else if (k < cur->GetKey())
+
+    TTreeNode<TK, TV>* cur = root;
+
+    while (true)
     {
-      if (cur->l == nullptr)
-      {
-        cur->l = new TTreeNode<TK, TV>(k, v);
-        count++;
-        return;
-      }
-      else
-        cur = cur->l;
+        if (cur->GetKey() == k)
+            return;
+        if (k > cur->GetKey())
+        {
+            if (cur->r == 0)
+            {
+                cur->r = new TTreeNode<TK, TV>(k, v);
+                count++;
+                return;
+            }
+            else
+                cur = cur->r;
+        }
+        else if (k < cur->GetKey())
+        {
+            if (cur->l == 0)
+            {
+                cur->l = new TTreeNode<TK, TV>(k, v);
+                count++;
+                return;
+            }
+            else
+                cur = cur->l;
+        }
     }
-  }
 }
+
 
 template<class TK1, class TV1>
 inline ofstream& operator<<(ofstream& out, const TTreeMap<TK1, TV1>& T)
@@ -284,10 +285,12 @@ inline ofstream& operator<<(ofstream& out, const TTreeMap<TK1, TV1>& T)
     TTreeNode<TK1, TV1>* n;
     bool l;
     bool r;
+    obhod(TTreeNode<TK1, TV1>* _n, bool _l, bool _r):n(_n), l(_l), r(_r) {}
   };
   int count = 0;
   stack<obhod> tree;
-  tree.push({ T.root,false,false });
+  obhod ob(T.root, false, false);
+  tree.push(ob);
   while (!tree.empty())
   {
     if (!tree.top().l && !tree.top().r)
@@ -300,18 +303,20 @@ inline ofstream& operator<<(ofstream& out, const TTreeMap<TK1, TV1>& T)
     if (!tree.top().l)
     {
       tree.top().l = true;
-      if (tree.top().n->l != nullptr)
+      if (tree.top().n->l != 0)
       {
-        tree.push({ tree.top().n->l,false,false });
+          obhod o(tree.top().n->l, false, false);
+        tree.push(o);
         count++;
       }
     }
     else if (!tree.top().r)
     {
       tree.top().r = true;
-      if (tree.top().n->r != nullptr)
+      if (tree.top().n->r != 0)
       {
-        tree.push({ tree.top().n->r,false,false });
+          obhod o(tree.top().n->r, false, false);
+        tree.push(o);
         count++;
       }
     }

@@ -275,21 +275,21 @@ void TTreeMap<TK, TV>::Add(TK k, TV v)
         }
     }
 }
-
-
 template<class TK1, class TV1>
-inline ofstream& operator<<(ofstream& out, const TTreeMap<TK1, TV1>& T)
-{
-  struct obhod
+struct obhod
   {
     TTreeNode<TK1, TV1>* n;
     bool l;
     bool r;
     obhod(TTreeNode<TK1, TV1>* _n, bool _l, bool _r):n(_n), l(_l), r(_r) {}
   };
+
+template<class TK1, class TV1>
+inline ofstream& operator<<(ofstream& out, const TTreeMap<TK1, TV1>& T)
+{
   int count = 0;
-  stack<obhod> tree;
-  obhod ob(T.root, false, false);
+  stack<obhod<TK1, TV1>> tree;
+  obhod<TK1, TV1> ob(T.root, false, false);
   tree.push(ob);
   while (!tree.empty())
   {
@@ -305,7 +305,7 @@ inline ofstream& operator<<(ofstream& out, const TTreeMap<TK1, TV1>& T)
       tree.top().l = true;
       if (tree.top().n->l != 0)
       {
-          obhod o(tree.top().n->l, false, false);
+          obhod<TK1, TV1> o(tree.top().n->l, false, false);
         tree.push(o);
         count++;
       }
@@ -315,7 +315,7 @@ inline ofstream& operator<<(ofstream& out, const TTreeMap<TK1, TV1>& T)
       tree.top().r = true;
       if (tree.top().n->r != 0)
       {
-          obhod o(tree.top().n->r, false, false);
+          obhod<TK1, TV1> o(tree.top().n->r, false, false);
         tree.push(o);
         count++;
       }

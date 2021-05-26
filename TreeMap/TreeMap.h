@@ -288,7 +288,7 @@ template<class TK1, class TV1>
 inline ofstream& operator<<(ofstream& out, const TTreeMap<TK1, TV1>& T)
 {
   int count = 0;
-  stack<obhod<TK1, TV1>> tree;
+  stack<obhod<TK1, TV1> > tree;
   obhod<TK1, TV1> ob(T.root, false, false);
   tree.push(ob);
   while (!tree.empty())
